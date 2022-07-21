@@ -1,16 +1,14 @@
 import express from "express";
 import "dotenv/config";
 import { createNewUser } from "./middlewares/auth/createNewuser.js";
-import { resendVerificationEmail } from "./middlewares/auth/resendVerificationEmail.js";
-import { verifyEmail } from "./middlewares/auth/verifyEmail.js";
+import { verifyOtp } from "./middlewares/auth/verify-opt.js";
+import { resendOtp } from "./middlewares/auth/resend-otp.js";
 
 const userRoutes = express.Router();
 
 // userRoutes.route('/login').get(verifyJwt).post(verifyPassword)
 
 userRoutes.route("/signup/email").post(createNewUser);
-userRoutes.get("/resend-verification-email", resendVerificationEmail);
-
-userRoutes.get("/verify-email",verifyEmail);
-
+userRoutes.post("/verify-otp", verifyOtp);
+userRoutes.get("/resend-otp", resendOtp)
 export default userRoutes;

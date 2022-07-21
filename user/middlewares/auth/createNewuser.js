@@ -1,6 +1,7 @@
 import {prisma} from "../../../index.js"
 import {hashPassword} from "../../../utils/hash.js"
-import {sendVerificationEmail} from "../../../utils/send-verification-email.js"
+import {generateOTP} from "../../../utils/create-otp.js"
+import {sendOtpEmail} from "../../../utils/send-otp-email.js"
 async function createNewUser(req, res, next){
     let body = req.body;
 
@@ -29,13 +30,22 @@ async function createNewUser(req, res, next){
             })
             //send verification email after the creation of the user in database
             if(newUserInDB){
-                sendVerificationEmail(newUserInDB.email, newUserInDB.firstName);
-                res.status(201).json({
-                    emailVerification: "pending"
-                })
+                let otpFunctionResponse = await generateOTP(newUserInDB.email)
+                if(otpFunctionResponse instanceof Error){
+                    throw new Error("OTP function error")
+                }else{
+                    sendOtpEmail(newUserInDB.email, `${newUserInDB.firstName} ${newUserInDB.lastName}`, otpFunctionResponse.OTP)
+                    res.status(201).json({
+                        userId: newUserInDB.id,
+                        email: newUserInDB.email,
+                        firstName: newUserInDB.firstName,
+                        emailVerified: newUserInDB.emailVerified,
+                    })
+                }
             }
         }
     }catch(err){
+        console.log(err)
         if(err.code){
             res.status(500).send("A database error has occured")
         }

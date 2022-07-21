@@ -50,9 +50,9 @@ model Session {
   expiresAt DateTime
 }
 
-model verificationLink {
+model OTP {
   id        Int    @id @default(autoincrement())
   email     String @unique
-  link      String
+  OTP       String
   expiresAt BigInt
 }

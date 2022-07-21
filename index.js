@@ -6,6 +6,7 @@ import session from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { adminRoutes } from "./admin/index.js";
 import userRoutes from "./user/users.js";
+import { OtpAutoExpiry } from "./utils/remove-old-otp.js";
 
 
 const app = express();
@@ -34,6 +35,8 @@ app.use(
 		}
 	})
 );
+
+OtpAutoExpiry()
 
 app.use(express.json());
 app.use(express.text());
