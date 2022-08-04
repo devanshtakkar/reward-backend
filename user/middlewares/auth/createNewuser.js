@@ -2,11 +2,23 @@ import {prisma} from "../../../index.js"
 import {hashPassword} from "../../../utils/hash.js"
 import {generateOTP} from "../../../utils/create-otp.js"
 import {sendOtpEmail} from "../../../utils/send-otp-email.js"
+import Joi from "joi"
 async function createNewUser(req, res, next){
     let body = req.body;
 
-    //check if teh user with the provided email already exists.
+    //Joi validate object
+    let validateObj = Joi.object({
+        email: Joi.string().email().required(),
+        password: Joi.string().min(8).max(20),
+        firstName: Joi.string().max(25).required(),
+        lastName: Joi.string().max(25),
+        occupation: Joi.string().max(15).required()
+    }).unknown(true)
+    
+
+    //check if the user with the provided email already exists.
     try{
+        let validatedData = await validateObj.validateAsync(body)
         let userInDB = await prisma.user.findUnique({
             where: {
                 email: body.email
@@ -46,6 +58,9 @@ async function createNewUser(req, res, next){
         }
     }catch(err){
         console.log(err)
+        if(err.name === "ValidationError"){
+            res.status(400).send(err.message)
+        }
         if(err.code){
             res.status(500).send("A database error has occured")
         }

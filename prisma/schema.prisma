@@ -56,3 +56,12 @@ model OTP {
   OTP       String
   expiresAt BigInt
 }
+
+model passwordResetLink {
+  id        Int    @id @default(autoincrement())
+  email     String @unique
+  token      String
+  expiresAt BigInt
+
+  @@map("passwordResetLinks")
+}

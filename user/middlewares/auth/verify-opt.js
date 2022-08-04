@@ -21,7 +21,8 @@ async function verifyOtp(req, res, next) {
 						emailVerified: true,
 					},
 				});
-				req.userId = updateEmailVerificationInDB.id;
+				req.userData = updateEmailVerificationInDB
+				//send JWT token if the otp is correct and login the user
 				next();
 			} else {
 				res.status(401).send("Incorrect OTP");
