@@ -9,6 +9,7 @@ async function makeAndSendJwt(req, res, next){
         email: req.userData.email,
         firstName: req.userData.firstName,
         lastName: req.userData.lastName,
+        emailVerified: req.userData.emailVerified
     },process.env.JWT_SECRET,(err, token) => {
         if(err){
             res.status(500).send("Internal server error while generating authentication token")

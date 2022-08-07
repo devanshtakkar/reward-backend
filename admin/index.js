@@ -5,7 +5,7 @@ import { createCodes, deleteCodes, getCodes } from "./codes.js";
 const adminRoutes = express.Router();
 
 adminRoutes.use((req, res, next) => {
-	if (req.admin || req.path === "/login") {
+	if (req.session.admin || req.path === "/login") {
     // if(true){
 		next();
 	} else {

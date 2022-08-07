@@ -8,6 +8,7 @@ function sendPasswordResetEmail(email, url) {
 			text: url.href,
 		},(error, info) => {
             if(error){
+				console.log(error)
                 reject("Failed to send email")
             }else{
                 resolve("Email Sent")

@@ -33,6 +33,7 @@ model user {
   passwordHash  String?
   loginProvider loginProvider
   emailVerified Boolean
+  points        Int           @default(0)
 
   @@map("users")
 }
@@ -60,7 +61,7 @@ model OTP {
 model passwordResetLink {
   id        Int    @id @default(autoincrement())
   email     String @unique
-  token      String
+  token     String
   expiresAt BigInt
 
   @@map("passwordResetLinks")

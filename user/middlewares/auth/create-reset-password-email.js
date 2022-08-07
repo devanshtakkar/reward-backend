@@ -27,7 +27,7 @@ async function genAndSendPasswordResetLink(req, res, next) {
 				} else {
 					//create the link path, store it to database and send it
 					let linkPath = buffer.toString("base64url");
-					let url = new URL("/reset-password", "http://localhost:3001");
+					let url = new URL("/user/reset-password", process.env.BASE_URL);
 					url.searchParams.append("email", validatedEmail);
 					url.searchParams.append("token", linkPath);
 

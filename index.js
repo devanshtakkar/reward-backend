@@ -38,8 +38,18 @@ app.use(
 
 OtpAutoExpiry()
 
+//body parsing middlewares
 app.use(express.json());
 app.use(express.text());
+
+//serving static files
+app.use(express.static("static"))
+
+//view engine setting
+app.set("views", "./views");
+app.set("view engine", "pug")
+
+//routes
 app.use("/admin", adminRoutes);
 app.use("/user", userRoutes)
 
