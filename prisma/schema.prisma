@@ -14,7 +14,7 @@ model code {
   id         Int     @id @default(autoincrement())
   code       String  @unique
   points     Int
-  claimer    user?   @relation(fields: [claimerId], references: [id])
+  claimer    User?   @relation(fields: [claimerId], references: [id])
   claimerId  Int?
   claimeTime BigInt?
   claimed    Boolean @default(false)
@@ -23,7 +23,7 @@ model code {
   @@map("codes")
 }
 
-model user {
+model User {
   id            Int           @id @default(autoincrement())
   firstName     String
   lastName      String?
@@ -31,14 +31,15 @@ model user {
   email         String        @unique
   codesClaimed  code[]
   passwordHash  String?
-  loginProvider loginProvider
+  loginProvider LoginProvider
   emailVerified Boolean
   points        Int           @default(0)
+  rewardsClaimed RewardsClaimedByUsers[]
 
   @@map("users")
 }
 
-enum loginProvider {
+enum LoginProvider {
   email
   google
   facebook
@@ -58,11 +59,29 @@ model OTP {
   expiresAt BigInt
 }
 
-model passwordResetLink {
+model PasswordResetLink {
   id        Int    @id @default(autoincrement())
   email     String @unique
   token     String
   expiresAt BigInt
 
   @@map("passwordResetLinks")
+}
+
+model Reward {
+  id Int @id @default(autoincrement())
+  item String
+  pointsRequired Int
+  claimable Boolean
+  claimHistory RewardsClaimedByUsers[]
+  @@map("Rewards")
+}
+
+model RewardsClaimedByUsers {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  claimTime DateTime
+  rewardId Int
+  reward Reward @relation(fields: [rewardId], references: [id])
 }

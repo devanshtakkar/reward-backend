@@ -1,47 +1,48 @@
-import { prisma } from "../index.js";
+import { prisma } from "../../index.js";
 
 //create codes in database
 async function createCodes(req, res, next) {
-	if (req.body instanceof Array) {
+	if (req.body.codes instanceof Array) {
 		try{
 			let newCodesInDB = await prisma.code.createMany({
-				data: req.body
+				data: req.body.codes
 			})
 			res.status(201).send(newCodesInDB)
 		}catch(err){
-			res.status(500).json({error: err.message})
+			res.status(500).send("Error while generating Codes")
 		}
 	} else {
 		res
 			.status(500)
-			.json({ error: "Incorrect body received. Expected JSON Array" });
+			.send("Incorrect body received. Expected JSON Array");
 	}
 }
 
 // codes from database 
 async function deleteCodes(req, res, next) {
-	if (req.body instanceof Array) {
+	if (req.body.codes instanceof Array) {
 		let responseData = 0;
 		//iteration count is required because for each loop function is running asynchrously
 		let iterationCount = 0;
 		try {
-			req.body.forEach(async (element, index, array) => {
+			req.body.codes.forEach(async (element, index, array) => {
 				let deletedCodesInDB =
-					await prisma.$executeRaw`DELETE FROM codes WHERE points=${element.points} AND claimerId IS NOT NULL LIMIT ${element.quantity}`;
+					await prisma.$executeRaw`DELETE FROM codes WHERE points=${element.points} AND claimed=0 LIMIT ${element.quantity}`;
 				responseData = responseData + deletedCodesInDB;
 				iterationCount = iterationCount + 1;
-				if (iterationCount == req.body.length) {
-					res.json({ created: responseData });
+				console.log(req.body.codes.length)
+				if (iterationCount == req.body.codes.length) {
+					res.json({ deleted: responseData });
 				}
 			});
 		} catch (error) {
 			console.log(error)
-			res.send(500);
+			res.status(500).send("Unable to delete codes from the database");
 		}
 	} else {
 		res
 			.status(500)
-			.json({ error: "Incorrect body received. Expected JSON Array" });
+			.send("Incorrect body received. Expected JSON Array");
 	}
 }
 
@@ -61,7 +62,7 @@ async function getCodes(req, res, next){
 		res.send(codesInDB)
 	}catch(err){
 		console.log(err)
-		res.status(500).json({error: "Internal server error has occured"})
+		res.status(500).json("Internal server error has occured")
 	}
 }
 

@@ -13,7 +13,8 @@
   },
   "type": "module",
   "scripts": {
-    "start": "npx nodemon index.js"
+    "test": "npx nodemon index.js",
+    "start": "node index.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.18"

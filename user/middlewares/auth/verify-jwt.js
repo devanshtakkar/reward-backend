@@ -1,4 +1,4 @@
-import jwtPkg, { decode } from "jsonwebtoken";
+import jwtPkg from "jsonwebtoken";
 import "dotenv/config";
 let {verify} = jwtPkg;
 
