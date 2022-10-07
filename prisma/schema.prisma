@@ -70,7 +70,7 @@ model PasswordResetLink {
 
 model Reward {
   id Int @id @default(autoincrement())
-  item String
+  item String @unique
   pointsRequired Int
   claimable Boolean
   claimHistory RewardsClaimedByUsers[]
@@ -83,5 +83,5 @@ model RewardsClaimedByUsers {
   user User @relation(fields: [userId], references: [id])
   claimTime DateTime
   rewardId Int
-  reward Reward @relation(fields: [rewardId], references: [id])
+  reward Reward @relation(fields: [rewardId], references: [id], onDelete: Restrict) 
 }
