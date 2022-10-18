@@ -6,7 +6,7 @@ async function sendOtpEmail(to, name = `user`, otp) {
 function sendEmail(to, name, otp) {
 	transporter.sendMail(
 		{
-			from: "devanshtakkar@ezeeroll.in>", // sender address
+			from: process.env.EMAIL_ADD, // sender address
 			to: `${to}`, // list of receivers
 			subject: `Verify your email`,
 			text: emailText(name, otp)

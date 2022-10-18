@@ -7,6 +7,7 @@ import verifyJwt from "./middlewares/auth/verify-jwt.js";
 import createNewReward from "./middlewares/rewards/create-reward.js";
 import retreiveRewardsFromDatabase from "./middlewares/rewards/get-rewards.js";
 import updateReward from "./middlewares/rewards/update-reward.js";
+import deleteReward from "./middlewares/rewards/delete-reward.js";
 const adminRoutes = express.Router();
 
 //authentication Routes
@@ -83,7 +84,7 @@ empty OR
 RES
 rewards[]
  */
-	.patch(verifyJwt, updateReward);
+	.patch(verifyJwt, updateReward)
 
 /* 
 REQ
@@ -97,6 +98,20 @@ REQ
 }
 
 RES
+reward object
+ */
+.delete(verifyJwt, deleteReward)
+
+/* REQ
+{
+	jwt: jwt,
+	id: number[]
+}
+
+RES
+{
+	count: number
+}
  */
 
 export default adminRoutes;

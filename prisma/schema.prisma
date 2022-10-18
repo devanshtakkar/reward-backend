@@ -24,16 +24,16 @@ model code {
 }
 
 model User {
-  id            Int           @id @default(autoincrement())
-  firstName     String
-  lastName      String?
-  occupation    String
-  email         String        @unique
-  codesClaimed  code[]
-  passwordHash  String?
-  loginProvider LoginProvider
-  emailVerified Boolean
-  points        Int           @default(0)
+  id             Int                     @id @default(autoincrement())
+  firstName      String
+  lastName       String?
+  occupation     String
+  email          String                  @unique
+  codesClaimed   code[]
+  passwordHash   String?
+  loginProvider  LoginProvider
+  emailVerified  Boolean
+  points         Int                     @default(0)
   rewardsClaimed RewardsClaimedByUsers[]
 
   @@map("users")
@@ -69,19 +69,20 @@ model PasswordResetLink {
 }
 
 model Reward {
-  id Int @id @default(autoincrement())
-  item String @unique
+  id             Int                     @id @default(autoincrement())
+  item           String                  @unique
   pointsRequired Int
-  claimable Boolean
-  claimHistory RewardsClaimedByUsers[]
+  claimable      Boolean
+  claimHistory   RewardsClaimedByUsers[]
+
   @@map("Rewards")
 }
 
 model RewardsClaimedByUsers {
-  id Int @id @default(autoincrement())
-  userId Int
-  user User @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
   claimTime DateTime
-  rewardId Int
-  reward Reward @relation(fields: [rewardId], references: [id], onDelete: Restrict) 
+  rewardId  Int
+  reward    Reward   @relation(fields: [rewardId], references: [id], onDelete: Restrict)
 }

@@ -4,8 +4,6 @@ import cors from "cors"
 import "dotenv/config";
 import adminRoutes from "./admin/admin.js";
 import userRoutes from "./user/users.js";
-import { OtpAutoExpiry } from "./utils/remove-old-otp.js";
-
 
 const app = express();
 const prisma = new PrismaClient();
@@ -17,8 +15,6 @@ app.use(
 	})
 );
 
-
-OtpAutoExpiry()
 
 //body parsing middlewares
 app.use(express.json());

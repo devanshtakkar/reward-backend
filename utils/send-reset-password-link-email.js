@@ -2,7 +2,7 @@ import transporter from "./email-transporter.js";
 function sendPasswordResetEmail(email, url) {
 	return new Promise((resolve, reject) => {
 		transporter.sendMail({
-			from: "devanshtakkar@ezeeroll.in",
+			from: process.env.EMAIL_ADD,
 			to: `${email}`,
 			subject: "Reset account password",
 			text: url.href,

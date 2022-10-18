@@ -1,12 +1,12 @@
 import { createTransport } from "nodemailer";
 
 let transporter = createTransport({
-	host: "mail.ezeeroll.in",
+	host: "smtp.yandex.com",
 	port: 465,
 	secure: true,
 	auth: {
-		user: "devanshtakkar@ezeeroll.in",
-		pass: "CX#Hm#7Bqd%f@",
+		user: process.env.EMAIL_ADD,
+		pass: process.env.SMTP_PASS,
 	},
 });
 
