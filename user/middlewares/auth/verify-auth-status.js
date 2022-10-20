@@ -1,5 +1,4 @@
 import jwtPkg, { decode } from "jsonwebtoken";
-import "dotenv/config";
 import { prisma } from "../../../index.js";
 
 let {verify} = jwtPkg;

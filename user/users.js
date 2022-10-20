@@ -16,7 +16,22 @@ import returnAllClaimedCodes from "./middlewares/points/return-all-claimed-codes
 
 const userRoutes = express.Router();
 
+//JWT is provided in Authorization header
+
 userRoutes.route('/login').get(verifyJwt).post(verifyPassword, makeAndSendJwt)
+/* GET REQ
+Authorization header: string (Bearer jwt)
+
+GET RES
+Success decoded jwt object as json
+Error non 200 status
+
+POST REQ
+{
+  email: email,
+  password: string
+}
+ */
 
 userRoutes.route("/signup/email").post(createNewUser);
 userRoutes.post("/verify-otp", verifyOtp, makeAndSendJwt);
@@ -26,4 +41,11 @@ userRoutes.route("/reset-password").get(renderPasswordResetPage).post(resetPassw
 userRoutes.get("/password-reset-success",renderPasswordResetSuccess)
 userRoutes.post("/claim", verifyAuthStatus, claimPoints)
 userRoutes.get("/claimed", verifyAuthStatus, returnAllClaimedCodes)
+
+userRoutes.route("/reward").post(verifyAuthStatus, claimReward)
+/* REQ
+{
+  id: number
+}
+ */
 export default userRoutes;

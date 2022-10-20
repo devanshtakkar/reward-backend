@@ -74,15 +74,26 @@ model Reward {
   pointsRequired Int
   claimable      Boolean
   claimHistory   RewardsClaimedByUsers[]
+  image          String
 
   @@map("Rewards")
 }
 
 model RewardsClaimedByUsers {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  claimTime DateTime
-  rewardId  Int
-  reward    Reward   @relation(fields: [rewardId], references: [id], onDelete: Restrict)
+  id          Int                  @id @default(autoincrement())
+  userId      Int
+  user        User                 @relation(fields: [userId], references: [id])
+  claimTime   DateTime
+  rewardId    Int
+  reward      Reward               @relation(fields: [rewardId], references: [id], onDelete: Restrict)
+  status      RewardDeliveryStatus @default(Pending)
+  message     String?
+  referenceNo String?
+}
+
+enum RewardDeliveryStatus {
+  Confirmed
+  Pending
+  Transit
+  Delivered
 }
