@@ -34,14 +34,19 @@ async function createNewReward(req, res, next) {
 		]).then((resolvedArray) => {
 			//return the created reward details
 			res.json(resolvedArray[1]);
-		});
+		}).catch((error) => {
+      if (error.name === "ImageError") {
+        res.status(500).send(error.message);
+      } else {
+        res.status(500).send("Internal server error");
+      }
+    })
 	} catch (error) {
 		console.log(error);
 		if (error.name === "ValidationError") {
 			res.status(400).send(error.message);
-		} else if (error.name === "ImageError") {
-			res.status(500).send(error.message);
-		} else {
+		} 
+		else {
 			res.status(500).send("Internal server error");
 		}
 	}

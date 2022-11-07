@@ -24,8 +24,9 @@ app.use(express.json());
 app.use(express.text());
 app.use(fileUpload({
 	limits: {
-		fileSize: 2000000
-	}
+		fileSize: 2000000,
+	},
+	abortOnLimit: true
 }));
 
 
