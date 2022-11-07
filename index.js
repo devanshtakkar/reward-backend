@@ -4,6 +4,9 @@ import cors from "cors"
 import "dotenv/config";
 import adminRoutes from "./admin/admin.js";
 import userRoutes from "./user/users.js";
+import fileUpload from 'express-fileupload';
+// import test from "./test/app.js";
+
 
 const app = express();
 const prisma = new PrismaClient();
@@ -19,6 +22,12 @@ app.use(
 //body parsing middlewares
 app.use(express.json());
 app.use(express.text());
+app.use(fileUpload({
+	limits: {
+		fileSize: 2000000
+	}
+}));
+
 
 //serving static files
 app.use(express.static("static"))
@@ -30,6 +39,8 @@ app.set("view engine", "pug")
 //routes
 app.use("/admin", adminRoutes);
 app.use("/user", userRoutes)
+
+// app.use("/test",test)
 
 app.listen(3001, () => {
     console.log("Server started on port 3001")

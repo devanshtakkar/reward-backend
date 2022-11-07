@@ -51,13 +51,7 @@ async function getCodes(req, res, next){
 	let queryObj = createQueryObjForDbOperation(req.query);
 	try{
 		let codesInDB = await prisma.code.findMany({
-			where: queryObj,
-			select: {
-				code: true,
-				claimerId: true,
-				points: true,
-				claimeTime: true
-			}
+			// where: queryObj,
 		})
 		res.send(codesInDB)
 	}catch(err){

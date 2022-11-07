@@ -10,6 +10,7 @@ async function retreiveRewardsFromDatabase(req, res, next){
         break;
       case "false":
         claimable = false
+        break;
     }
     try{
       let rewardsInDB = await prisma.reward.findMany({

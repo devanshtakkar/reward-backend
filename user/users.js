@@ -13,6 +13,7 @@ import renderPasswordResetSuccess from "./middlewares/auth/render-password-reset
 import verifyAuthStatus from "./middlewares/auth/verify-auth-status.js";
 import claimPoints from "./middlewares/points/claim.js";
 import returnAllClaimedCodes from "./middlewares/points/return-all-claimed-codes.js";
+import claimReward from "./middlewares/reward/claim-reward.js";
 
 const userRoutes = express.Router();
 

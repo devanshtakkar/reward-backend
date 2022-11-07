@@ -16,9 +16,9 @@ model code {
   points     Int
   claimer    User?   @relation(fields: [claimerId], references: [id])
   claimerId  Int?
-  claimeTime BigInt?
+  claimeTime DateTime?
   claimed    Boolean @default(false)
-  createTime BigInt
+  createTime DateTime?
 
   @@map("codes")
 }

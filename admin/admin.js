@@ -34,13 +34,15 @@ RES
     jwt: JWT
 }
  */
+
+
 //Codes routes
+//Authentication method is JWT in authentication header
 adminRoutes
 	.route("/codes")
 	.post(verifyJwt, createCodes)
 	/* 	REQ
 	{
-	    jwt: string,
 	    codes: [
 	        {
 	            points: number
@@ -59,15 +61,12 @@ adminRoutes
 	.route("/rewards")
 	.post(verifyJwt, createNewReward)
 	/* 	REQ
+	Content-Type -multipart/form
 	{
-	    jwt:
-	    rewards: [
-	        {
-	           item: string,
-	           pointsRequired: number,
-	           claimable: bool
-	        }
-	    ]
+		item: string,
+		pointsRequired: number,
+		claimable: bool
+		image: File
 	}
 
 	RES
@@ -88,13 +87,11 @@ rewards[]
 
 /* 
 REQ
+Content-Type: Multipart/form
 {
-    jwt: jwt,
-    reward: {
-        id: number,
-        pointsRequired: number,
-        claimable: bool
-    }
+	id: number,
+	pointsRequired: number,
+	claimable: bool
 }
 
 RES
@@ -104,7 +101,6 @@ reward object
 
 /* REQ
 {
-	jwt: jwt,
 	id: number[]
 }
 
