@@ -90,8 +90,9 @@ REQ
 Content-Type: Multipart/form
 {
 	id: number,
-	pointsRequired: number,
-	claimable: bool
+	pointsRequired?: number,
+	claimable?: bool
+	image?: File
 }
 
 RES
