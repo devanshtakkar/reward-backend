@@ -44,14 +44,14 @@ async function claimPoints(req, res, next){
                     },
                     data: {
                         claimed: true,
-                        claimeTime: Date.now()
+                        claimeTime: new Date(),
                     }
                 })
             ]).then((resolve) => {
                 res.json({
                     totalPoints: resolve[0].points,
                     claimedCode : {
-                        claimeTime: Number(resolve[1].claimeTime),
+                        claimeTime: resolve[1].claimeTime,
                         points: resolve[1].points
                     }
                 })

@@ -11,13 +11,13 @@ datasource db {
 }
 
 model code {
-  id         Int     @id @default(autoincrement())
-  code       String  @unique
+  id         Int       @id @default(autoincrement())
+  code       String    @unique
   points     Int
-  claimer    User?   @relation(fields: [claimerId], references: [id])
+  claimer    User?     @relation(fields: [claimerId], references: [id])
   claimerId  Int?
   claimeTime DateTime?
-  claimed    Boolean @default(false)
+  claimed    Boolean   @default(false)
   createTime DateTime?
 
   @@map("codes")
@@ -80,15 +80,16 @@ model Reward {
 }
 
 model RewardsClaimedByUsers {
-  id          Int                  @id @default(autoincrement())
-  userId      Int
-  user        User                 @relation(fields: [userId], references: [id])
-  claimTime   DateTime
-  rewardId    Int
-  reward      Reward               @relation(fields: [rewardId], references: [id], onDelete: Restrict)
-  status      RewardDeliveryStatus @default(Pending)
-  message     String?
-  referenceNo String?
+  id               Int                  @id @default(autoincrement())
+  userId           Int
+  user             User                 @relation(fields: [userId], references: [id])
+  claimTime        DateTime
+  rewardId         Int
+  reward           Reward               @relation(fields: [rewardId], references: [id], onDelete: Restrict)
+  status           RewardDeliveryStatus @default(Pending)
+  message          String?
+  referenceNo      String?
+  pointsSubtracted Int
 }
 
 enum RewardDeliveryStatus {
