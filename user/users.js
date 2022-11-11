@@ -15,6 +15,8 @@ import claimPoints from "./middlewares/points/claim.js";
 import returnAllClaimedCodes from "./middlewares/points/return-all-claimed-codes.js";
 import claimReward from "./middlewares/reward/claim-reward.js";
 import getClaimedRewards from "./middlewares/reward/get-claimed-rewards.js";
+import createNewUserAuthByWhatsapp from "./middlewares/auth/create-new-whatsapp-user.js";
+import getUserDetails from "./middlewares/user-details/get-user-details.js";
 
 const userRoutes = express.Router();
 
@@ -35,7 +37,38 @@ POST REQ
 }
  */
 
-userRoutes.route("/signup/email").post(createNewUser);
+userRoutes.route("/signup/email").post(createNewUser, makeAndSendJwt);
+/* 
+REQ
+{
+  firstName: string,
+  lastName: string?,
+  occupation: string,
+  email: Email,
+  password: string
+}
+RES
+{
+  jwt: jwt
+}
+*/
+
+userRoutes.route("signup/whatsapp").post(createNewUserAuthByWhatsapp, makeAndSendJwt);
+/* 
+REQ
+{
+  firstName: string,
+  lastName: string?,
+  countryCode: Int,
+  whatsApp: string,
+  occupation: string,
+}
+RES
+{
+  jwt: jwt
+}
+*/
+userRoutes.route("/").get(verifyAuthStatus, getUserDetails);
 userRoutes.post("/verify-otp", verifyOtp, makeAndSendJwt);
 userRoutes.get("/resend-otp", resendOtp)
 userRoutes.get("/reset-password-email/:email", genAndSendPasswordResetLink)

@@ -28,21 +28,17 @@ model User {
   firstName      String
   lastName       String?
   occupation     String
-  email          String                  @unique
+  email          String?                 @unique
   codesClaimed   code[]
   passwordHash   String?
-  loginProvider  LoginProvider
-  emailVerified  Boolean
+  loginProvider  String
+  whatsApp       BigInt?
+  countryCode    Int?
+  emailVerified  Boolean  @default(false)
   points         Int                     @default(0)
   rewardsClaimed RewardsClaimedByUsers[]
 
   @@map("users")
-}
-
-enum LoginProvider {
-  email
-  google
-  facebook
 }
 
 model Session {

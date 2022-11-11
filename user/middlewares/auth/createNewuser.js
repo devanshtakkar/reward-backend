@@ -47,12 +47,8 @@ async function createNewUser(req, res, next){
                     throw new Error("OTP function error")
                 }else{
                     sendOtpEmail(newUserInDB.email, `${newUserInDB.firstName} ${newUserInDB.lastName}`, otpFunctionResponse.OTP)
-                    res.status(201).json({
-                        userId: newUserInDB.id,
-                        email: newUserInDB.email,
-                        firstName: newUserInDB.firstName,
-                        emailVerified: newUserInDB.emailVerified,
-                    })
+                    res.userData = newUserInDB;
+                    next()
                 }
             }
         }
@@ -60,9 +56,11 @@ async function createNewUser(req, res, next){
         console.log(err)
         if(err.name === "ValidationError"){
             res.status(400).send(err.message)
+            return
         }
         if(err.code){
             res.status(500).send("A database error has occured")
+            return
         }
         console.log(err)
         res.status(500).send("Internal server error has occured")
