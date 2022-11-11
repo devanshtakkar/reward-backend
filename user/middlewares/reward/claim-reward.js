@@ -1,6 +1,7 @@
 import { prisma } from "../../../index.js";
 import fetch from "node-fetch";
 async function claimReward(req, res, next) {
+	let time = new Date();
 	let rewardId = req.body.id;
 	let pointsOfUser = req.userData.points;
 	let userId = req.userData.id;
@@ -114,7 +115,7 @@ async function claimReward(req, res, next) {
 				}
 			});
 	} catch (error) {
-		let time = new Date();
+		
 		console.log(`${time}: ${error.stack}`);
 		res.status(500).send("Internal server error");
 	}

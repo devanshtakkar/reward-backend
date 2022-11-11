@@ -14,6 +14,7 @@ import verifyAuthStatus from "./middlewares/auth/verify-auth-status.js";
 import claimPoints from "./middlewares/points/claim.js";
 import returnAllClaimedCodes from "./middlewares/points/return-all-claimed-codes.js";
 import claimReward from "./middlewares/reward/claim-reward.js";
+import getClaimedRewards from "./middlewares/reward/get-claimed-rewards.js";
 
 const userRoutes = express.Router();
 
@@ -48,5 +49,19 @@ userRoutes.route("/reward").post(verifyAuthStatus, claimReward)
 {
   id: number
 }
+
+RES
+[
+  RewardsClaimedByUsers,
+  {
+    pointsRemaining: number
+  }
+]
  */
+.get(verifyAuthStatus, getClaimedRewards)
+/* 
+RES
+RewardsClaimedByUsers[]
+*/
+
 export default userRoutes;
