@@ -34,7 +34,7 @@ model User {
   loginProvider  String
   whatsApp       BigInt?
   countryCode    Int?
-  emailVerified  Boolean  @default(false)
+  emailVerified  Boolean                 @default(false)
   points         Int                     @default(0)
   rewardsClaimed RewardsClaimedByUsers[]
 
@@ -49,9 +49,10 @@ model Session {
 }
 
 model OTP {
-  id        Int    @id @default(autoincrement())
-  email     String @unique
-  OTP       String
+  id        Int     @id @default(autoincrement())
+  email     String? @unique
+  userId    Int?
+  OTP       String?
   expiresAt BigInt
 }
 

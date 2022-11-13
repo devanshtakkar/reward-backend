@@ -65,7 +65,7 @@ async function updateReward(req, res, next) {
 				});
 		}
 	} catch (error) {
-    console.log(error)
+    console.log(`${new Date()}: ${error.stack}`)
 		if (error.name === "ValidationError") {
 			res.status(400).send(error.message);
 		} else {
