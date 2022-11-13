@@ -24,21 +24,31 @@ model code {
 }
 
 model User {
-  id             Int                     @id @default(autoincrement())
-  firstName      String
-  lastName       String?
-  occupation     String
-  email          String?                 @unique
-  codesClaimed   code[]
-  passwordHash   String?
-  loginProvider  String
-  whatsApp       BigInt?
-  countryCode    Int?
-  emailVerified  Boolean                 @default(false)
-  points         Int                     @default(0)
-  rewardsClaimed RewardsClaimedByUsers[]
+  id               Int                     @id @default(autoincrement())
+  firstName        String
+  lastName         String?
+  occupation       String
+  email            String?                 @unique
+  codesClaimed     code[]
+  passwordHash     String?
+  loginProvider    String
+  emailVerified    Boolean                 @default(false)
+  points           Int                     @default(0)
+  rewardsClaimed   RewardsClaimedByUsers[]
+  whatsAppNumberId Int?                    @unique
+  whatsAppNumber   WhatsAppNumbers?        @relation(fields: [whatsAppNumberId], references: [id])
 
   @@map("users")
+}
+
+model WhatsAppNumbers {
+  id          Int     @id @default(autoincrement())
+  number      BigInt
+  countryCode Int
+  user        User?
+  verified    Boolean @default(false)
+
+  @@unique(fields: [countryCode, number])
 }
 
 model Session {

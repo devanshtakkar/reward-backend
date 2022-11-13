@@ -77,8 +77,6 @@ PATCH REQ
   firstName: string,
   lastName: string,
   occupation: string,
-  whatsApp: string().regex(/^[0-9]{10}$/),
-  countryCode: number().min(1).max(1000),
   email: Email,
 
 }

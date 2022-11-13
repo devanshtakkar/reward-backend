@@ -7,14 +7,11 @@ async function updateUserDetails(req, res, next) {
     firstName: Joi.string(),
     lastName: Joi.string(),
     occupation: Joi.string(),
-    whatsApp: Joi.string().regex(/^[0-9]{10}$/, { name: "Phone Number" }),
-    countryCode: Joi.number().min(1).max(1000),
     email: Joi.string().email(),  
   });
 	try {
 		let verifiedData = await joiObject.validateAsync(data);
 		let userId = verifiedData.id;
-    verifiedData.whatsApp = BigInt(verifiedData.whatsApp);
 		delete verifiedData.id;
 		let updatedDataOfUser = await prisma.user.update({
 			where: {
