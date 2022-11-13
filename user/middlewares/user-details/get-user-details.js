@@ -5,6 +5,9 @@ async function getUserDetails(req, res, next){
     let userInDB = await prisma.user.findFirst({
       where: {
         id: userId
+      },
+      include: {
+        whatsAppNumber: true
       }
     })
 

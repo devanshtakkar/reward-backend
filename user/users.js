@@ -4,7 +4,7 @@ import { createNewUser } from "./middlewares/auth/createNewuser.js";
 import { verifyOtp } from "./middlewares/auth/verify-otp.js";
 import { resendOtp } from "./middlewares/auth/resend-otp.js";
 import { makeAndSendJwt } from "./middlewares/auth/generate-and-send-jwt.js";
-import {verifyJwt} from "./middlewares/auth/verify-jwt.js";
+import { verifyJwt } from "./middlewares/auth/verify-jwt.js";
 import { verifyPassword } from "./middlewares/auth/verify-password.js";
 import genAndSendPasswordResetLink from "./middlewares/auth/create-reset-password-email.js";
 import renderPasswordResetPage from "./middlewares/auth/render-password-reset-page.js";
@@ -18,12 +18,13 @@ import getClaimedRewards from "./middlewares/reward/get-claimed-rewards.js";
 import createNewUserAuthByWhatsapp from "./middlewares/auth/create-new-whatsapp-user.js";
 import getUserDetails from "./middlewares/user-details/get-user-details.js";
 import updateUserDetails from "./middlewares/user-details/update-user-details.js";
+import verifyWhatsAppNumber from "./middlewares/auth/verify-whatsapp-number.js";
 
 const userRoutes = express.Router();
 
 //JWT is provided in Authorization header
 
-userRoutes.route('/login').get(verifyJwt).post(verifyPassword, makeAndSendJwt)
+userRoutes.route("/login").get(verifyJwt).post(verifyPassword, makeAndSendJwt);
 /* GET REQ
 Authorization header: string (Bearer jwt)
 
@@ -53,8 +54,22 @@ RES
   jwt: jwt
 }
 */
+userRoutes.post("/send-whatsapp-otp", verifyWhatsAppNumber);
+/* 
+REQ
+{
+  number: BigInt,
+  countryCode: countryCode
+}
 
-userRoutes.route("signup/whatsapp").post(createNewUserAuthByWhatsapp, makeAndSendJwt);
+RES
+{
+  sent: Boolean
+}
+*/
+userRoutes
+	.route("signup/whatsapp")
+	.post(createNewUserAuthByWhatsapp, makeAndSendJwt);
 /* 
 REQ
 {
@@ -69,7 +84,10 @@ RES
   jwt: jwt
 }
 */
-userRoutes.route("/").use(verifyAuthStatus).get(getUserDetails).patch(updateUserDetails);
+userRoutes
+	.route("/")
+	.get(verifyAuthStatus, getUserDetails)
+	.patch(verifyAuthStatus, updateUserDetails);
 /* 
 PATCH REQ
 {
@@ -82,15 +100,20 @@ PATCH REQ
 }
 */
 userRoutes.post("/verify-email-otp", verifyOtp, makeAndSendJwt);
-userRoutes.get("/resend-email-otp", resendOtp)
-userRoutes.get("/reset-password-email/:email", genAndSendPasswordResetLink)
-userRoutes.route("/reset-password").get(renderPasswordResetPage).post(resetPassword)
-userRoutes.get("/password-reset-success",renderPasswordResetSuccess)
-userRoutes.post("/claim", verifyAuthStatus, claimPoints)
-userRoutes.get("/claimed", verifyAuthStatus, returnAllClaimedCodes)
+userRoutes.get("/resend-email-otp", resendOtp);
+userRoutes.get("/reset-password-email/:email", genAndSendPasswordResetLink);
+userRoutes
+	.route("/reset-password")
+	.get(renderPasswordResetPage)
+	.post(resetPassword);
+userRoutes.get("/password-reset-success", renderPasswordResetSuccess);
+userRoutes.post("/claim", verifyAuthStatus, claimPoints);
+userRoutes.get("/claimed", verifyAuthStatus, returnAllClaimedCodes);
 
-userRoutes.route("/reward").post(verifyAuthStatus, claimReward)
-/* REQ
+userRoutes
+	.route("/reward")
+	.post(verifyAuthStatus, claimReward)
+	/* REQ
 {
   id: number
 }
@@ -103,7 +126,7 @@ RES
   }
 ]
  */
-.get(verifyAuthStatus, getClaimedRewards)
+	.get(verifyAuthStatus, getClaimedRewards);
 /* 
 RES
 RewardsClaimedByUsers[]

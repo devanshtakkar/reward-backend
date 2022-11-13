@@ -59,11 +59,12 @@ model Session {
 }
 
 model OTP {
-  id        Int     @id @default(autoincrement())
-  email     String? @unique
-  userId    Int?
-  OTP       String?
-  expiresAt BigInt
+  id             Int     @id @default(autoincrement())
+  email          String? @unique
+  whatsAppNumber BigInt? @unique
+  OTP            Int
+  expiresAt      BigInt
+  retries        Int     @default(0)
 }
 
 model PasswordResetLink {

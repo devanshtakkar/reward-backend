@@ -43,17 +43,17 @@ function addZero(OTP) {
 	if (OTP < 1000 && OTP > 99) {
 		let str = String(OTP);
 		str = "0" + str;
-		return str
+		return Number(str)
 	} else if (OTP < 100 && OTP > 9) {
 		let str = String(OTP);
 		str = "00" + str;
-		return str
+		return Number(str);
 	} else if (OTP < 10) {
 		let str = String(OTP);
 		str = "000" + str;
-		return str
+		return Number(str);
 	} else {
-		return String(OTP)
+		return OTP
 	}
 }
 
