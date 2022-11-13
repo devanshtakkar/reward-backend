@@ -5,8 +5,7 @@ import "dotenv/config";
 import adminRoutes from "./admin/admin.js";
 import userRoutes from "./user/users.js";
 import fileUpload from 'express-fileupload';
-// import test from "./test/app.js";
-
+import OtpAutoExpiry from "./utils/otp-auto-expiry.js";
 
 const app = express();
 const prisma = new PrismaClient();
@@ -47,4 +46,5 @@ app.listen(3001, () => {
     console.log("Server started on port 3001")
 })
 
+OtpAutoExpiry();
 export {prisma}

@@ -18,7 +18,8 @@ import getClaimedRewards from "./middlewares/reward/get-claimed-rewards.js";
 import createNewUserAuthByWhatsapp from "./middlewares/auth/create-new-whatsapp-user.js";
 import getUserDetails from "./middlewares/user-details/get-user-details.js";
 import updateUserDetails from "./middlewares/user-details/update-user-details.js";
-import verifyWhatsAppNumber from "./middlewares/auth/verify-whatsapp-number.js";
+import sendOtpOnWhatsApp from "./middlewares/auth/send-WA-otp.js";
+import verifyWhatsAppOtp from "./middlewares/auth/verify-WA-otp.js";
 
 const userRoutes = express.Router();
 
@@ -54,7 +55,7 @@ RES
   jwt: jwt
 }
 */
-userRoutes.post("/send-whatsapp-otp", verifyWhatsAppNumber);
+userRoutes.post("/WA/send-otp", sendOtpOnWhatsApp);
 /* 
 REQ
 {
@@ -65,6 +66,19 @@ REQ
 RES
 {
   sent: Boolean
+}
+*/
+
+userRoutes.post("/WA/verify-otp", verifyWhatsAppOtp)
+/* 
+REQ
+{
+  otp: number
+}
+
+RES
+{
+  verified: Boolean
 }
 */
 userRoutes
