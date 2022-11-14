@@ -51,13 +51,6 @@ model WhatsAppNumbers {
   @@unique(fields: [countryCode, number])
 }
 
-model Session {
-  id        String   @id
-  sid       String   @unique
-  data      String
-  expiresAt DateTime
-}
-
 model OTP {
   id             Int     @id @default(autoincrement())
   email          String? @unique
