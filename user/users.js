@@ -69,16 +69,18 @@ RES
 }
 */
 
-userRoutes.post("/WA/verify-otp", verifyWhatsAppOtp)
+userRoutes.post("/WA/verify-otp", verifyWhatsAppOtp, makeAndSendJwt)
 /* 
 REQ
 {
+  number: string (combined number with country code and phone number)
   otp: number
 }
 
 RES
 {
   verified: Boolean
+  jwt?: JWT
 }
 */
 userRoutes
