@@ -84,7 +84,7 @@ RES
 }
 */
 userRoutes
-	.route("signup/whatsapp")
+	.route("/signup/whatsapp")
 	.post(createNewUserAuthByWhatsapp, makeAndSendJwt);
 /* 
 REQ
@@ -92,7 +92,7 @@ REQ
   firstName: string,
   lastName: string?,
   countryCode: Int,
-  whatsApp: string,
+  number: string,
   occupation: string,
 }
 RES

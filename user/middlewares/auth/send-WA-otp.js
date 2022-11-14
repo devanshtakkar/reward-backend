@@ -14,31 +14,6 @@ async function sendOtpOnWhatsApp(req, res, next) {
 		let verifiedJoiData = await joiObject.validateAsync(body);
     let receiversPhoneNumber = `${verifiedJoiData.countryCode}${verifiedJoiData.number}`;
 
-		//check whether the number already exists in database or not
-		let numberInDB = await prisma.whatsAppNumbers.findFirst({
-			where: {
-				AND: [
-					{
-						number: {
-              equals: BigInt(verifiedJoiData.number)
-            }
-					},
-					{
-						countryCode: verifiedJoiData.countryCode,
-					},
-				],
-			},
-			include: {
-				user: true,
-			},
-		});
-
-		//return error if the user with this phone number already exists
-		if (numberInDB?.user) {
-			res.status(400).send("A user with this phone number already exists");
-			return;
-		}
-
 		//generate the otp
 		let otp = 0;
 		do {
