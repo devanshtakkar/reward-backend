@@ -38,7 +38,8 @@ app.set("view engine", "pug")
 
 //routes
 app.use("/admin", adminRoutes);
-app.use("/user", userRoutes)
+app.use("/user", userRoutes);
+app.use("/static", express.static("files"));
 
 // app.use("/test",test)
 
