@@ -21,7 +21,7 @@ async function createNewUser(req, res, next){
         let validatedData = await validateObj.validateAsync(body)
         let userInDB = await prisma.user.findUnique({
             where: {
-                email: body.email
+                email: validatedData.email
             }
         })
         if(userInDB.emailVerified){
@@ -29,16 +29,15 @@ async function createNewUser(req, res, next){
         //create new user if an user does not exist
         }else{
             let passwordHash = await hashPassword(body.password)
-            let newUserInDB =  await prisma.user.create({
-                data: {
-                    email: body.email,
-                    passwordHash: passwordHash,
-                    firstName: body.firstName,
-                    lastName: body.lastName,
-                    occupation: body.occupation,
-                    emailVerified: false,
-                    loginProvider: 'email'
-                }
+            delete validatedData.password;
+            validatedData.passwordHash = passwordHash;
+            validatedData.loginProvider = "email"
+            let newUserInDB =  await prisma.user.upsert({
+                where: {
+                    id: userInDB.id
+                },
+                update: validatedData,
+                create: validatedData
             })
             //send verification email after the creation of the user in database
             if(newUserInDB){
