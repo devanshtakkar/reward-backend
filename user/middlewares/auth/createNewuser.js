@@ -24,7 +24,7 @@ async function createNewUser(req, res, next){
                 email: body.email
             }
         })
-        if(userInDB){
+        if(userInDB.emailVerified){
             res.status(403).send(`Cannot create a new user. A user with this email already exists`)
         //create new user if an user does not exist
         }else{
@@ -47,7 +47,7 @@ async function createNewUser(req, res, next){
                     throw new Error("OTP function error")
                 }else{
                     sendOtpEmail(newUserInDB.email, `${newUserInDB.firstName} ${newUserInDB.lastName}`, otpFunctionResponse.OTP)
-                    res.userData = newUserInDB;
+                    req.userData = newUserInDB;
                     next()
                 }
             }
