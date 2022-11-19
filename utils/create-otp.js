@@ -9,25 +9,31 @@ async function generateOTP(email) {
             },
         });
         if (!oldOtpRequest) {
-            let OTP = Math.floor(Math.random() * 10000);
+            let otp = 0;
+            do {
+                otp = Math.floor(Math.random() * 1000000);
+            } while (otp <= 100000);
             let expirydate = Date.now() + 600000;
                 let OtpRecord = await prisma.OTP.create({
                     data: {
                         email: email,
-                        OTP: addZero(OTP),
+                        OTP: otp,
                         expiresAt: expirydate,
                     },
                 });
                 return OtpRecord
         } else {
-            let OTP = Math.floor(Math.random() * 10000);
+            let otp = 0;
+            do {
+                otp = Math.floor(Math.random() * 1000000);
+            } while (otp <= 100000);
             let expirydate = Date.now() + 600000;
             let newOtpInDB = await prisma.OTP.update({
                 where: {
                     email: email
                 },
                 data: {
-                    OTP: addZero(OTP),
+                    OTP: otp,
                     expiresAt: expirydate,
                 }
             })
@@ -37,24 +43,6 @@ async function generateOTP(email) {
     }catch(err){
         return err
     }
-}
-
-function addZero(OTP) {
-	if (OTP < 1000 && OTP > 99) {
-		let str = String(OTP);
-		str = "0" + str;
-		return Number(str)
-	} else if (OTP < 100 && OTP > 9) {
-		let str = String(OTP);
-		str = "00" + str;
-		return Number(str);
-	} else if (OTP < 10) {
-		let str = String(OTP);
-		str = "000" + str;
-		return Number(str);
-	} else {
-		return OTP
-	}
 }
 
 export {generateOTP}
